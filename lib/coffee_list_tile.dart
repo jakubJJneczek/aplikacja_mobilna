@@ -1,15 +1,12 @@
-import 'package:aplikacja_mobilna/shop.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'cart.dart';
 import 'coffee.dart';
-import 'home.dart';
 
 class CoffeeListTile extends StatefulWidget {
   final Coffee coffee;
 
-  CoffeeListTile({Key? key, required this.coffee}) : super(key: key);
+  const CoffeeListTile({Key? key, required this.coffee}) : super(key: key);
 
   @override
   State<CoffeeListTile> createState() => _CoffeeListTileState();
@@ -18,7 +15,7 @@ class CoffeeListTile extends StatefulWidget {
 class _CoffeeListTileState extends State<CoffeeListTile> {
   bool isItemExpanded = false;
 
-  int quantityCount = 0;
+  int quantityCount = 1;
 
   void decrementQuantity() {
     setState(() {
@@ -45,19 +42,20 @@ class _CoffeeListTileState extends State<CoffeeListTile> {
       },
       backgroundColor: Colors.white,
       collapsedBackgroundColor: Colors.white,
-      leading: Text(
-        widget.coffee.title,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 20,
-          color: Color.fromRGBO(62, 15, 27, 1),
-        ),
-      ),
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CircleAvatar(
             radius: 30,
             backgroundImage: NetworkImage(widget.coffee.image),
+          ),
+          Text(
+            widget.coffee.title,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 20,
+              color: Color.fromRGBO(62, 15, 27, 1),
+            ),
           ),
           const SizedBox(
             width: 15,
@@ -94,7 +92,7 @@ class _CoffeeListTileState extends State<CoffeeListTile> {
         Text(widget.coffee.description),
         const SizedBox(height: 10),
         const Text(
-          'Składniki:',
+          "Składniki:",
           style: TextStyle(
             fontWeight: FontWeight.bold,
           ),
@@ -109,14 +107,24 @@ class _CoffeeListTileState extends State<CoffeeListTile> {
               height: 40,
               child: ElevatedButton(
                 onPressed: () {
-                  cart.addToCart(Coffee(
-                      title: widget.coffee.title,
-                      description: widget.coffee.description,
-                      ingredients: widget.coffee.ingredients,
-                      image: widget.coffee.image,
-                      quantityCoffee: quantityCount));
+                  if (quantityCount > 0) {
+                    cart.addToCart(Coffee(
+                        title: widget.coffee.title,
+                        description: widget.coffee.description,
+                        ingredients: widget.coffee.ingredients,
+                        image: widget.coffee.image,
+                        quantityCoffee: quantityCount));
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text("Dodano do koszyka"),
+                      backgroundColor: Colors.green,
+                    ));
+                  } else {
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Podaj ilość kaw!")));
+                  }
                 },
-                child: const Text("Do koszyka"),
                 style: ButtonStyle(
                   shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                     RoundedRectangleBorder(
@@ -124,16 +132,18 @@ class _CoffeeListTileState extends State<CoffeeListTile> {
                     ),
                   ),
                   backgroundColor: MaterialStateProperty.all<Color>(
-                    Color.fromRGBO(162, 116, 72, 1),
+                    const Color.fromRGBO(62, 15, 27, 1),
                   ),
                 ),
+                child: const Text("Do koszyka"),
               ),
             ),
             Row(
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                      color: Colors.red, shape: BoxShape.circle),
+                      color: Color.fromRGBO(62, 15, 27, 1),
+                      shape: BoxShape.circle),
                   child: IconButton(
                     icon: const Icon(
                       Icons.remove,
@@ -154,7 +164,8 @@ class _CoffeeListTileState extends State<CoffeeListTile> {
                 ),
                 Container(
                   decoration: const BoxDecoration(
-                      color: Colors.green, shape: BoxShape.circle),
+                      color: Color.fromRGBO(62, 15, 27, 1),
+                      shape: BoxShape.circle),
                   child: IconButton(
                     icon: const Icon(
                       Icons.add,

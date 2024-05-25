@@ -4,7 +4,7 @@ class Coffee {
   final List<dynamic> ingredients;
   final String image;
   final int quantityCoffee;
-  String get quantityCoffeeString =>quantityCoffee.toString();
+  String get quantityCoffeeString => quantityCoffee.toString();
 
   Coffee({
     required this.title,

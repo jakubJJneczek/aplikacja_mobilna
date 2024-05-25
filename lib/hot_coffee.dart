@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:aplikacja_mobilna/coffee_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'cart.dart';
 import 'coffee.dart';
 
 class HotCoffee extends StatefulWidget {
@@ -20,7 +18,7 @@ class _HotCoffee extends State<HotCoffee> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Color.fromRGBO(62, 15, 27, 1),
+          backgroundColor: const Color.fromRGBO(111, 42, 59, 1),
           title: const Text('Hot Coffee'),
           centerTitle: true,
         ),

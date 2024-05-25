@@ -11,14 +11,15 @@ class Cart extends ChangeNotifier {
     _items.add(coffee);
     notifyListeners();
   }
-
-  void removeFromCart(Coffee coffee) {
-    _items.remove(coffee);
-    notifyListeners();
-  }
-
   void clearCart() {
     _items.clear();
     notifyListeners();
+  }
+
+  void removeItemAtIndex(int index) {
+    if (index >= 0 && index < _items.length) {
+      _items.removeAt(index);
+      notifyListeners();
+    }
   }
 }

@@ -12,12 +12,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: ChangeNotifierProvider(
-        create: (BuildContext context) => Cart(),
-        builder: (context, child) {
-          return const Home();
-        },
+    return ChangeNotifierProvider(
+      create: (BuildContext context) => Cart(),
+      child: const MaterialApp(
+        home: Home(),
       ),
     );
   }
